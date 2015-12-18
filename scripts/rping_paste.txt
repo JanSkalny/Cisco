@@ -1,0 +1,12 @@
+tclsh
+
+set f [open "rping.tcl" w+]
+puts $f "terminal no history"
+puts $f "set dst \[lindex \$argv 0\]"
+puts $f "set src \[lindex \$argv 1\]"
+puts $f "typeahead \"\$dst\\n1\\n\\n\\ny\\n\$src\\n\\n\\n\\n\\nrecord\\n\\n\\n\\n\""
+puts $f "puts \[ping ip\]"
+puts $f "terminal history"
+close $f
+tclquit
+
