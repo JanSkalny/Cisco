@@ -1,0 +1,25 @@
+#pragma once
+
+#define USE_NET_CONVERSION(x) BYTE * pNetConvData=(x)
+#define REUSE_NET_CONVERSION(x) pNetConvData=(x)
+
+#define BY(o) (((BYTE*)pNetConvData)+(o))
+#define READ_BYTE(o) ( *BY(o) )
+#define READ_WORD(o) ( *((WORD*)(BY(o))) )
+#define READ_WORD_NO(o) ( ntohs(READ_WORD(o)) )
+#define READ_DWORD(o) ( *((DWORD*)(BY(o))) )
+#define READ_DWORD_NO(o) ( htonl(*((DWORD*)(BY(o)))) )
+#define READ_NIBBLE_HI(o) ( (*(BY(o))>>4)&0x0f )
+#define READ_NIBBLE_LO(o) ( (*(BY(o)))&0x0f )
+#define READ_MAC(o) ( PTR2MAC(BY(o))) 
+#define READ_ADDR(o) ( READ_DWORD_NO(o) )
+
+#define WRITE_BYTE(o,x) ( *BY(o) = (BYTE)(x) )
+#define WRITE_WORD(o,x) ( *((WORD*)(BY(o))) = (WORD)(x) )
+#define WRITE_WORD_NO(o,x) WRITE_WORD(o,htons(x))
+#define WRITE_DWORD(o,x) ( *((DWORD*)(BY(o))) = (DWORD)(x) )
+#define WRITE_DWORD_NO(o,x) WRITE_DWORD(o,htonl(x))
+#define WRITE_MAC(o,x) ( memcpy(BY(o), MAC2PTR(x), 6) )
+#define WRITE_ADDR(o,x) WRITE_DWORD_NO(o,x)
+#define WRITE_NIBBLE_HI(o,x) ( (*(BY(o)) = *(BY(o))&0x0f | (x)<<4 & 0xf0) )
+#define WRITE_NIBBLE_LO(o,x) ( (*(BY(o)) = *(BY(o))&0xf0 | (x) & 0xf) )
